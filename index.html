@@ -3,13 +3,17 @@
 
 <head>
   <title>Public Board Test</title>
-  <meta charset="utf-8" />
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="./style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+  <script type="text/javascript">var submitted=false;</script>
+     
   <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
   <script type='text/javascript'>
     var publicSpreadsheetUrl =
@@ -41,7 +45,7 @@
         let div = document.createElement("div");
         div.className = "item";
         div.innerHTML = `
-          <div class="item-container" style="font-family: 'Nunito', sans-serif;">
+          <div class="item-container">
             <div class="card">
               <div>
                 <p style="margin: 0px; line-height: 1.7em;"><b>From</b>: <span class="name-text">${item.Nickname}</span></p>  
@@ -66,9 +70,36 @@
 
 <body>
   <p>Public Board Test</p>
-  <div id="loader"></div>
 
-  <div id="pfyMessage" class="masonry"></div>
+  <div style="font-family: 'Nunito', sans-serif;">
+    <div class="form-card">
+      <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScB9_VOoUGTm7Xk6rb5Xu2_iWv8nToULKTEoldYsxHFdDjW8w/formResponse" method="post"  target="hidden_iframe" onsubmit="submitted=true;">
+        <div>
+          <label>Nickname</label>
+          <br />
+          <input type="text" name="entry.2142761714" class="form-input">
+        </div>
+        <br />
+        <div>
+          <label>Greeting</label>
+          <br />
+          <textarea type="text" name="entry.840167261" class="form-input" rows="4"></textarea>
+        </div>
+        <br />
+        <div style="text-align: center;">
+          <input type="submit" value="Kirim Ucapan" class="btn-pfy" />
+        </div>
+      </form>
+    </div>
+
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted)  {window.location=window.location.href;}"></iframe>
+
+    <br />
+    <div id="loader"></div>
+    <br />
+
+    <div id="pfyMessage" class="masonry"></div>
+  </div>
 </body>
 
 </html>
