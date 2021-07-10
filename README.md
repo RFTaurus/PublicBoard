@@ -6,3 +6,7 @@ https://www.npmjs.com/package/tabletop
 
 # Incase something happen, alternative for docs
 https://github.com/RFTaurus/tabletop
+
+# Necessary Item
+Google Form for testing purpose: https://forms.gle/Biq1tv3jUNr31fLDA
+Public Form Data: https://docs.google.com/spreadsheets/d/1iLcOlTf832B7wJ9pFLdzejopA3gHvcL63F10Po-MezM/edit?usp=sharing
