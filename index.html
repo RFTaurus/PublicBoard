@@ -6,13 +6,16 @@
   <meta charset="utf-8" />
 
   <link rel="stylesheet" href="./style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
   <script type='text/javascript'>
     var publicSpreadsheetUrl =
       'https://docs.google.com/spreadsheets/d/1iLcOlTf832B7wJ9pFLdzejopA3gHvcL63F10Po-MezM/edit?usp=sharing';
 
-    var interval = 1000 * 60 * 10;
+    var interval = 1000 * 60 * 5;
     var firstInit = 1;
     
     function init() {
@@ -36,17 +39,16 @@
 
       data.forEach((item, index) => {
         let div = document.createElement("div");
+        div.className = "item";
         div.innerHTML = `
-          <div>
-            <p><b>Number</b>: <span class="index">${index + 1}</span></p>
-          </div>
-          <div>
-            <p><b>Nickname</b>: <span class="name-text">${item.Nickname}</span></p>  
-          </div>
-          <div>
-            <p><b>Ucapan</b>: <span class="description-text">${item["Greeting"]}</span></p>  
-          </div>
-          <hr />
+          <div class="item-container" style="font-family: 'Nunito', sans-serif;">
+            <div class="card">
+              <div>
+                <p style="margin: 0px; line-height: 1.7em;"><b>From</b>: <span class="name-text">${item.Nickname}</span></p>  
+                <span class="description-text">${item["Greeting"]}</span>  
+              </div>
+            </div>
+          </div
         `
         component.appendChild(div);
       });
@@ -66,7 +68,7 @@
   <p>Public Board Test</p>
   <div id="loader"></div>
 
-  <div id="pfyMessage"></div>
+  <div id="pfyMessage" class="masonry"></div>
 </body>
 
 </html>
