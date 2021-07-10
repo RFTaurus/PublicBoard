@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Public Board Test</title>
+  <meta charset="utf-8" />
+
+  <link rel="stylesheet" href="./style.css">
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+  <script type='text/javascript'>
+    var publicSpreadsheetUrl =
+      'https://docs.google.com/spreadsheets/d/1iLcOlTf832B7wJ9pFLdzejopA3gHvcL63F10Po-MezM/edit?usp=sharing';
+
+    var interval = 1000 * 60 * 10;
+    var firstInit = 1;
+    
+    function init() {
+      Tabletop.init({
+        key: publicSpreadsheetUrl,
+        callback: showInfo,
+        simpleSheet: true
+      })
+    }
+
+    function showInfo(data, tabletop) {
+      console.log(data);
+      if(data && data.length !== 0) {
+        createComponent(data);
+      }
+    }
+
+    function createComponent(data) {
+      let component = document.getElementById("pfyMessage");
+      component.innerHTML = "";
+
+      data.forEach((item, index) => {
+        let div = document.createElement("div");
+        div.innerHTML = `
+          <div>
+            <p><b>Number</b>: <span class="index">${index + 1}</span></p>
+          </div>
+          <div>
+            <p><b>Nickname</b>: <span class="name-text">${item.Nickname}</span></p>  
+          </div>
+          <div>
+            <p><b>Ucapan</b>: <span class="description-text">${item.Ucapan}</span></p>  
+          </div>
+          <hr />
+        `
+        component.appendChild(div);
+      });
+      document.getElementById("loader").style.display = "none";
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+
+    this.setInterval(() => {
+      document.getElementById("loader").style.display = "block";
+      init();
+    }, interval);
+  </script>
+</head>
+
+<body>
+  <p>Public Board Test</p>
+  <div id="loader"></div>
+
+  <div id="pfyMessage"></div>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+#loader {
+  border: solid 8px #3B73C5;
+  border-bottom: solid 8px #3b72c500;
+  border-radius: 50%;
+  width: 100%;
+  max-width: 32px;
+  height: 32px;
+  margin: auto;
+
+  -webkit-animation: spin 1s linear infinite;
+  -moz-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.index {
+  font-size: 18px;
+  color: #3B73C5;
+}
+
+.name-text {
+  font-size: 18px;
+  color: #3B73C5;
+  font-weight: bold;
+}
+
+.description-text {
+  font-size: 16px;
+  color: #1D3962;
+}
