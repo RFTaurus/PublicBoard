@@ -10,18 +10,104 @@
   <link rel="stylesheet" href="./style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+</head>
 
-  <script type="text/javascript">var submitted=false;</script>
-     
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+<body>
+  <p>Public Board Test</p>
+
+  <div style="font-family: 'Nunito', sans-serif;">
+    <div class="form-card">
+      <form
+        action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSf0bvu3Bjxp1GCqf-5P1O2X7QWjLs_x15m8lEQis8If76Rjig/formResponse"
+        method="post" target="hidden_iframe" onsubmit="submitted=true;">
+        <div>
+          <label>Nama</label>
+          <br />
+          <input id="name" type="text" name="entry.1859179451" class="form-input" required>
+        </div>
+        <br />
+        <div>
+          <label>Kelas</label>
+          <br />
+          <select type="text" name="entry.2109774137" class="select-input" required>
+            <option value="SD">SD</option>
+            <option value="SMP">SMP</option>
+            <option value="Kelas 10">Kelas 10</option>
+            <option value="Kelas 11">Kelas 11</option>
+            <option value="Kelas 12">Kelas 12</option>
+            <option value="Alumni">Alumni</option>
+          </select>
+        </div>
+        <br />
+        <div>
+          <label>Nomor WA</label>
+          <br />
+          <input type="number" name="entry.28745707" class="form-input">
+        </div>
+        <br />
+        <div>
+          <label>Ucapan Kamu</label>
+          <br />
+          <textarea id="greeting" type="text" name="entry.1794251063" class="form-input" rows="4" required></textarea>
+        </div>
+        <br />
+        <div style="text-align: center;">
+          <input type="submit" value="Kirim Ucapan" class="btn-pfy" />
+        </div>
+      </form>
+
+      <div id="custom-send-path"></div>
+    </div>
+
+    <br />
+    <div id="loader"></div>
+    <br />
+
+    <div id="pfyMessage" class="masonry"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script type='text/javascript'>
+    var submitted = false;
     var publicSpreadsheetUrl =
-      'https://docs.google.com/spreadsheets/d/1iLcOlTf832B7wJ9pFLdzejopA3gHvcL63F10Po-MezM/edit?usp=sharing';
+      'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmOJ3aQf5iQYTHhFP9IJ0zNe4jPF0_Rwm38FHR7O5ZdWOgHtAvv_1UYfFoiN7Fj42-OzYiXwzVBZ0C/pub?output=csv';
 
-    var interval = 1000 * 60 * 5;
+    var interval = 1000 * 60 * 15;
     var firstInit = 1;
-    
+
+    function sendData() {
+      const pathName = document.getElementById("name");
+      const pathGreeting = document.getElementById("greeting");
+
+      let body = document.getElementById("custom-send-path");
+      let form = document.createElement("form");
+      form.setAttribute("action", "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdB4cS-YLozOEFalTFLeZaxu4OsXf_BXI8gnCLCtTzpK-sJZQ/formResponse");
+      form.setAttribute("id", "publicForm");
+      form.setAttribute("method", "POST");
+
+      let name = document.createElement("input");
+      name.setAttribute("type", "text");
+      name.setAttribute("value", pathName.value);
+      name.setAttribute("name", "entry.514879429");
+      form.appendChild(name);
+
+      let greeting = document.createElement("input");
+      greeting.setAttribute("type", "text");
+      greeting.setAttribute("value", pathGreeting.value);
+      greeting.setAttribute("name", "entry.954346433");
+      form.appendChild(greeting);
+      document.body.appendChild(form);
+      form.submit();
+
+      setTimeout(function(){ window.location=window.location.href; }, 2000);
+      alert("Pesanmu Telah Mipi Terima!");
+      setTimeout(function(){ window.location=window.location.href; }, 500);
+    }
+
     function init() {
       Tabletop.init({
         key: publicSpreadsheetUrl,
@@ -30,10 +116,37 @@
       })
     }
 
-    function showInfo(data, tabletop) {
-      console.log(data);
-      if(data && data.length !== 0) {
+    function init() {
+      Papa.parse(publicSpreadsheetUrl, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          const data = results.data
+          console.log("cek data : ", data);
+          if(data && data.length !== 0) {
+            showInfo(data);
+          }
+        }
+      })
+    }
+
+    function random(min, max) { 
+      return Math.random() * (max - min) + min; 
+    }
+
+    function showInfo(data) {
+      var randomData = [];
+      var totalLength = 299;
+      if(data && data.length <= totalLength) {
         createComponent(data);
+      } else if(data && data.length > totalLength) {
+        for(let i = 0; i < totalLength; i++) {
+          randomData[i] = data[Math.floor(random(1, totalLength))-1];
+        }
+
+        if (randomData && randomData.length !== 0) {
+          createComponent(randomData);
+        }
       }
     }
 
@@ -41,7 +154,7 @@
       let component = document.getElementById("pfyMessage");
       component.innerHTML = "";
 
-      data.forEach((item, index) => {
+      data.some((item, index) => {
         let div = document.createElement("div");
         div.className = "item";
         div.innerHTML = `
@@ -49,13 +162,14 @@
             <div class="card">
               <div>
                 <p style="margin: 0px; line-height: 1.7em;"><b>From</b>: <span class="name-text">${item.Nickname}</span></p>  
-                <span class="description-text">${item["Greeting"]}</span>  
+                <span class="description-text" style="word-break: break-word;">${item["Greeting"]}</span>
               </div>
             </div>
           </div
         `
         component.appendChild(div);
       });
+
       document.getElementById("loader").style.display = "none";
     }
 
@@ -66,40 +180,7 @@
       init();
     }, interval);
   </script>
-</head>
-
-<body>
-  <p>Public Board Test</p>
-
-  <div style="font-family: 'Nunito', sans-serif;">
-    <div class="form-card">
-      <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScB9_VOoUGTm7Xk6rb5Xu2_iWv8nToULKTEoldYsxHFdDjW8w/formResponse" method="post"  target="hidden_iframe" onsubmit="submitted=true;">
-        <div>
-          <label>Nickname</label>
-          <br />
-          <input type="text" name="entry.2142761714" class="form-input">
-        </div>
-        <br />
-        <div>
-          <label>Greeting</label>
-          <br />
-          <textarea type="text" name="entry.840167261" class="form-input" rows="4"></textarea>
-        </div>
-        <br />
-        <div style="text-align: center;">
-          <input type="submit" value="Kirim Ucapan" class="btn-pfy" />
-        </div>
-      </form>
-    </div>
-
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted)  {window.location=window.location.href;}"></iframe>
-
-    <br />
-    <div id="loader"></div>
-    <br />
-
-    <div id="pfyMessage" class="masonry"></div>
-  </div>
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted)  {sendData();}"></iframe>
 </body>
 
 </html>
